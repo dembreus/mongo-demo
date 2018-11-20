@@ -27,15 +27,15 @@ async function createCourse() {
   const result = await course.save();
   console.log(result);
 }
+const pageNumber = 1;
+const pageSize = 10;
 
 async function getCourses() {
-  const courses = await Course.find({
-    author: "Mosh Hamedani",
-    isPublished: true
-  })
-    .limit(2)
-    .sort({ name: 1 })
-    .select({ name: 1, tags: 1 });
+  const courses = await Course.find({ author: /.*mosh.*/i, isPublished: true })
+    .skip((pageNumber - 1) * pageSize)
+    .limit(pageNumber)
+    .sort({ name: 1 });
+  // .select({ name: 1, tags: 1 });
   console.log(courses);
 }
 getCourses();
